@@ -1,11 +1,17 @@
+import DriverCard from '@/components/DriverCard';
+import RideLayout from '@/components/RideLayout';
+import { drivers } from '@/constants';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 
 const ConfirmRide = () => {
   return (
-    <View>
-      <Text>Confirm Ride</Text>
-    </View>
+    <RideLayout title='Choose a Driver'>
+      <FlatList
+        data={drivers}
+        renderItem={(item) => <DriverCard item={item} />}
+      />
+    </RideLayout>
   );
 };
 
