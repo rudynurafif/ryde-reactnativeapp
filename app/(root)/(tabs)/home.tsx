@@ -18,12 +18,15 @@ import * as Location from 'expo-location';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import { useFetch } from '@/lib/fetch';
+import { Ride } from '@/types/type';
 
 export default function Page() {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const { user } = useUser();
+  const { data: recentRides, loading } = useFetch<Ride[]>(
+    `/(api)/(ride)/${user?.id}`
+  );
   const { signOut } = useAuth();
-  const { data: recentRides, loading } = useFetch(`/(api)/(ride)/${user?.id}`);
 
   const [hasPermissions, setHasPermissions] = useState(false);
 
@@ -80,7 +83,7 @@ export default function Page() {
         className='px-5'
         keyboardShouldPersistTaps='handled'
         contentContainerStyle={{
-          paddingBottom: 100,
+          paddingBottom: 125,
         }}
         ListEmptyComponent={() => (
           <View className='flex flex-col items-center justify-center'>
