@@ -80,7 +80,7 @@ const SignIn = () => {
             className='text-lg text-center text-general-200 mt-10'
           >
             <Text>Don't have an account? </Text>
-            <Text className='text-primary-500'>Sign In</Text>
+            <Text className='text-primary-500'>Sign Up</Text>
           </Link>
         </View>
 
