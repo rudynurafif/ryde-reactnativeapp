@@ -19,16 +19,23 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import { useFetch } from '@/lib/fetch';
 import { Ride } from '@/types/type';
+import {
+  GestureHandlerRootView,
+  RefreshControl,
+} from 'react-native-gesture-handler';
 
 export default function Page() {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const { user } = useUser();
-  const { data: recentRides, loading } = useFetch<Ride[]>(
-    `/(api)/(ride)/${user?.id}`
-  );
+  const {
+    data: recentRides,
+    loading,
+    refetch,
+  } = useFetch<Ride[]>(`/(api)/(ride)/${user?.id}`);
   const { signOut } = useAuth();
 
   const [hasPermissions, setHasPermissions] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const requestLocation = async () => {
@@ -74,72 +81,83 @@ export default function Page() {
     router.push('/(root)/find-ride');
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+
   return (
-    <SafeAreaView className='bg-general-500'>
-      <FlatList
-        data={recentRides?.slice(0, 5)}
-        // data={[]}
-        renderItem={({ item }) => <RideCard ride={item} />}
-        className='px-5'
-        keyboardShouldPersistTaps='handled'
-        contentContainerStyle={{
-          paddingBottom: 125,
-        }}
-        ListEmptyComponent={() => (
-          <View className='flex flex-col items-center justify-center'>
-            {!loading ? (
-              <>
-                <Image
-                  source={images.noResult}
-                  className='w-40 h-40'
-                  alt='No recent rides found'
-                  resizeMode='contain'
-                />
-                <Text className='text-sm'>No Recent rides found</Text>
-              </>
-            ) : (
-              <ActivityIndicator size='large' color='#000' className='pt-5' />
-            )}
-          </View>
-        )}
-        ListHeaderComponent={() => (
-          <>
-            <View className='flex flex-row items-center justify-between my-5'>
-              <Text className='text-2xl capitalize font-JakartaExtraBold'>
-                Welcome{', '}
-                {user?.firstName ||
-                  user?.emailAddresses[0].emailAddress.split('@')[0]}{' '}
-                👋
-              </Text>
-              <TouchableOpacity
-                onPress={handleSignOut}
-                className='justify-center items-center w-10 h-10 rounded-full bg-white'
-              >
-                <Image source={icons.out} className='w-4 h-4' />
-              </TouchableOpacity>
+    <GestureHandlerRootView>
+      <SafeAreaView className='bg-general-500'>
+        <FlatList
+          data={recentRides?.slice(0, 5)}
+          // data={[]}
+          renderItem={({ item }) => <RideCard ride={item} />}
+          className='px-5'
+          keyboardShouldPersistTaps='handled'
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          contentContainerStyle={{
+            paddingBottom: 125,
+          }}
+          ListEmptyComponent={() => (
+            <View className='flex flex-col items-center justify-center'>
+              {!loading ? (
+                <>
+                  <Image
+                    source={images.noResult}
+                    className='w-40 h-40'
+                    alt='No recent rides found'
+                    resizeMode='contain'
+                  />
+                  <Text className='text-sm'>No Recent rides found</Text>
+                </>
+              ) : (
+                <ActivityIndicator size='large' color='#000' className='pt-5' />
+              )}
             </View>
-
-            <GoogleTextInput
-              icon={icons.search}
-              containerStyle='bg-white shadow-md shadow-neutral-300 '
-              handlePress={handleDestinationPress}
-            />
-
+          )}
+          ListHeaderComponent={() => (
             <>
-              <Text className='text-xl font-JakartaBold mt-5 mb-3'>
-                Your Current Location
-              </Text>
-              <View className='flex flex-row items-center bg-transparent h-[300px]'>
-                <Map />
+              <View className='flex flex-row items-center justify-between my-5'>
+                <Text className='text-2xl capitalize font-JakartaExtraBold'>
+                  Welcome{', '}
+                  {user?.firstName ||
+                    user?.emailAddresses[0].emailAddress.split('@')[0]}{' '}
+                  👋
+                </Text>
+                <TouchableOpacity
+                  onPress={handleSignOut}
+                  className='justify-center items-center w-10 h-10 rounded-full bg-white'
+                >
+                  <Image source={icons.out} className='w-4 h-4' />
+                </TouchableOpacity>
               </View>
-            </>
 
-            <Text className='text-xl font-JakartaBold mt-5 mb-3'>
-              Recent Rides
-            </Text>
-          </>
-        )}
-      />
-    </SafeAreaView>
+              <GoogleTextInput
+                icon={icons.search}
+                containerStyle='bg-white shadow-md shadow-neutral-300 '
+                handlePress={handleDestinationPress}
+              />
+
+              <>
+                <Text className='text-xl font-JakartaBold mt-5 mb-3'>
+                  Your Current Location
+                </Text>
+                <View className='flex flex-row items-center bg-transparent h-[300px]'>
+                  <Map />
+                </View>
+              </>
+
+              <Text className='text-xl font-JakartaBold mt-5 mb-3'>
+                Recent Rides
+              </Text>
+            </>
+          )}
+        />
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }

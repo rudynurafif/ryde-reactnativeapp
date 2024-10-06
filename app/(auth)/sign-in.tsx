@@ -5,7 +5,7 @@ import { icons, images } from '@/constants';
 import { useSignIn } from '@clerk/clerk-expo';
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Alert, Image, ScrollView, Text, View } from 'react-native';
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -29,12 +29,13 @@ const SignIn = () => {
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
         router.replace('/');
+        Alert.alert('Login Successful');
       } else {
-        // See https://clerk.com/docs/custom-flows/error-handling
-        // for more info on error handling
         console.error(JSON.stringify(signInAttempt, null, 2));
+        Alert.alert('Error', 'Login in failed. Please try again');
       }
     } catch (err: any) {
+      Alert.alert('Error', `${err.errors[0].longMessage}`);
       console.error(JSON.stringify(err, null, 2));
     }
   }, [isLoaded, form.email, form.password]);
@@ -53,6 +54,7 @@ const SignIn = () => {
           <InputField
             label='Email'
             placeholder='Enter your email'
+            keyboardType='email-address'
             icon={icons.email}
             value={form.email}
             onChangeText={(value) => setForm({ ...form, email: value })}

@@ -6,7 +6,9 @@ import checkmark from '@/assets/icons/check.png';
 import close from '@/assets/icons/close.png';
 import dollar from '@/assets/icons/dollar.png';
 import email from '@/assets/icons/email.png';
-import eyecross from '@/assets/icons/eyecross.png';
+import eyecross from '@/assets/icons/eye-cross.png';
+import eye1 from '@/assets/icons/eye-normal.png';
+import eye2 from '@/assets/icons/eye-cross-2.png';
 import google from '@/assets/icons/google.png';
 import home from '@/assets/icons/home.png';
 import list from '@/assets/icons/list.png';
@@ -53,6 +55,8 @@ export const icons = {
   dollar,
   email,
   eyecross,
+  eye1,
+  eye2,
   google,
   home,
   list,

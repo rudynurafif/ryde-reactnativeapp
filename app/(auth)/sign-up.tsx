@@ -19,7 +19,7 @@ const SignUp = () => {
   });
 
   const [verification, setVerification] = useState({
-    state: 'defualt',
+    state: 'default',
     error: '',
     code: '',
   });
@@ -71,17 +71,22 @@ const SignUp = () => {
         setVerification({ ...verification, state: 'success' });
       } else {
         setVerification({
-          ...verification,
-          error: 'Verification failed',
+          code: '',
+          error: 'Verification failed. Please try again.',
           state: 'failed',
         });
       }
     } catch (err: any) {
       setVerification({
-        ...verification,
+        code: '',
         error: err.errors[0].longMessage,
         state: 'failed',
       });
+
+      Alert.alert(
+        'Verification failed',
+        'Please enter a valid verification code'
+      );
     }
   };
 
@@ -106,6 +111,7 @@ const SignUp = () => {
           <InputField
             label='Email'
             placeholder='Enter your email'
+            keyboardType='email-address'
             icon={icons.email}
             value={form.email}
             onChangeText={(value) => setForm({ ...form, email: value })}
@@ -137,12 +143,7 @@ const SignUp = () => {
           </Link>
         </View>
 
-        <ReactNativeModal
-          isVisible={verification.state === 'pending'}
-          onModalHide={() =>
-            setVerification({ ...verification, state: 'success' })
-          }
-        >
+        <ReactNativeModal isVisible={verification.state === 'pending'}>
           <View className='bg-white px-7 py-9 rounded-2xl min-h-[300px]'>
             <Text className='text-2xl font-JakartaExtraBold mb-2'>
               Verification
@@ -161,12 +162,6 @@ const SignUp = () => {
                 setVerification({ ...verification, code })
               }
             />
-
-            {verification.error && (
-              <Text className='text-red-500 text-sm mt-1'>
-                {verification.error}
-              </Text>
-            )}
 
             <CustomButton
               title='Verify Email'
