@@ -1,6 +1,6 @@
 import { useUser } from '@clerk/clerk-expo';
 import { Image, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import RideLayout from '@/components/RideLayout';
 import { icons } from '@/constants';
 import { formatTime } from '@/lib/utils';
@@ -18,12 +18,10 @@ const BookRide = () => {
     (driver) => +driver.id === selectedDriver
   )[0];
 
-  // console.log(drivers, selectedDriver);
-
   return (
     <StripeProvider
       publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}
-      merchantIdentifier='merchant.identifier' // required for Apple Pay
+      merchantIdentifier='merchant.ryde.com' // required for Apple Pay
       urlScheme='myapp'
     >
       <RideLayout title='Book Ride'>
@@ -60,15 +58,15 @@ const BookRide = () => {
             <View className='flex flex-row items-center justify-between w-full border-b border-white py-3'>
               <Text className='text-lg font-JakartaRegular'>Ride Price</Text>
               <Text className='text-lg font-JakartaRegular text-[#0CC25F]'>
-                ${driverDetails?.price}
+                {/* ${driverDetails?.price} */}$
+                {parseFloat(driverDetails?.price!).toFixed(0)}
               </Text>
             </View>
 
             <View className='flex flex-row items-center justify-between w-full border-b border-white py-3'>
               <Text className='text-lg font-JakartaRegular'>Pickup Time</Text>
               <Text className='text-lg font-JakartaRegular'>
-            {formatTime(parseInt(`${driverDetails.time}`))}
-
+                {formatTime(parseInt(`${driverDetails.time}`))}
               </Text>
             </View>
 
@@ -80,7 +78,7 @@ const BookRide = () => {
             </View>
           </View>
 
-          <View className='flex flex-col w-full items-start justify-center mt-5'>
+          <View className='flex flex-col w-full items-start justify-center mt-5 pr-5'>
             <View className='flex flex-row items-center justify-start mt-3 border-t border-b border-general-700 w-full py-3'>
               <Image source={icons.to} className='w-6 h-6' />
               <Text className='text-lg font-JakartaRegular ml-2'>

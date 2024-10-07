@@ -1,4 +1,4 @@
-import { drivers, icons } from '@/constants';
+import { icons } from '@/constants';
 import { useFetch } from '@/lib/fetch';
 import {
   calculateDriverTimes,
@@ -14,8 +14,8 @@ import MapViewDirections from 'react-native-maps-directions';
 
 const Map = () => {
   const {
-    userLongitude,
     userLatitude,
+    userLongitude,
     destinationLatitude,
     destinationLongitude,
   } = useLocationStore();
@@ -24,8 +24,8 @@ const Map = () => {
   const [markers, setMarkers] = useState<MarkerData[]>([]);
 
   const region = calculateRegion({
-    userLongitude,
     userLatitude,
+    userLongitude,
     destinationLatitude,
     destinationLongitude,
   });
@@ -60,15 +60,15 @@ const Map = () => {
 
   if (loading || !userLatitude || !userLongitude) {
     return (
-      <View className='flex justify-between  items-center w-full'>
-        <ActivityIndicator size='small' color='#000' />
+      <View className='flex justify-between items-center w-full'>
+        <ActivityIndicator size='large' color='#000' />
       </View>
     );
   }
 
   if (error) {
     return (
-      <View className='flex justify-between  items-center w-full'>
+      <View className='flex justify-between items-center w-full'>
         <Text>Error: {error}</Text>
       </View>
     );

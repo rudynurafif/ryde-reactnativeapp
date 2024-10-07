@@ -11,7 +11,7 @@ const ConfirmRide = () => {
 
   return (
     <RideLayout title='Choose a Driver'>
-      <FlatList
+      <FlatList 
         data={drivers}
         renderItem={({ item }) => (
           <DriverCard

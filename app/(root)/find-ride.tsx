@@ -16,9 +16,9 @@ const FindRide = () => {
   } = useLocationStore();
 
   return (
-    <RideLayout title='Ride'>
+    <RideLayout title='Find Ride'>
       <View className='my-3'>
-        {/* <Text className='text-lg font-JakartaSemiBold mb-3'>From</Text> */}
+        <Text className='text-lg font-JakartaSemiBold mb-3'>From</Text>
         <GoogleTextInput
           icon={icons.target}
           initialLocation={userAddress!}

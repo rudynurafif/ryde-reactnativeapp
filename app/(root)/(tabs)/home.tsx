@@ -3,7 +3,7 @@ import Map from '@/components/Map';
 import RideCard from '@/components/RideCard';
 import { icons, images } from '@/constants';
 import { useLocationStore } from '@/store';
-import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo';
+import { useAuth, useUser } from '@clerk/clerk-expo';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
@@ -50,15 +50,13 @@ export default function Page() {
 
       const address = await Location.reverseGeocodeAsync({
         latitude: location.coords?.latitude!,
-        longitude: location.coords.longitude!,
+        longitude: location.coords?.longitude!,
       });
 
       setUserLocation({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        // latitude: 37.78825,
-        // longitude: -122.4324,
-        address: `${address[0].name}, ${address[0].region}`,
+        address: `${address[0].formattedAddress}`,
       });
     };
 

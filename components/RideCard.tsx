@@ -39,7 +39,7 @@ const RideCard = ({
 
             <View className='flex flex-row items-center gap-x-2'>
               <Image source={icons.point} className='w-5 h-5' />
-              <Text className='text-md font-JakartaMedium'>
+              <Text className='text-md font-JakartaMedium' numberOfLines={1}>
                 {destination_address}
               </Text>
             </View>
@@ -74,7 +74,7 @@ const RideCard = ({
             </Text>
           </View>
 
-          <View className='flex flex-row items-center w-full justify-between mb-5'>
+          <View className='flex flex-row items-center w-full justify-between n-5'>
             <Text className='text-md font-JakartaMedium text-gray-500'>
               Payment Status
             </Text>

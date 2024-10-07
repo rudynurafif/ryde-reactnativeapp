@@ -4,14 +4,7 @@ import { useFetch } from '@/lib/fetch';
 import { Ride } from '@/types/type';
 import { useUser } from '@clerk/clerk-expo';
 import React, { useState } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
 import {
   GestureHandlerRootView,
   RefreshControl,
@@ -66,11 +59,9 @@ const Rides = () => {
             </View>
           )}
           ListHeaderComponent={() => (
-            <>
-              <Text className='text-2xl font-JakartaBold my-5'>
-                Rides History
-              </Text>
-            </>
+            <Text className='text-2xl font-JakartaBold my-5'>
+              Rides History
+            </Text>
           )}
         />
       </SafeAreaView>

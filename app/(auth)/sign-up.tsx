@@ -131,7 +131,6 @@ const SignUp = () => {
             className='mt-6'
           />
 
-          {/* OAuth */}
           <OAuth />
 
           <Link

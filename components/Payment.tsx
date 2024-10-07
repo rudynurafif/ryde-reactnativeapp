@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, Image, Text, View } from 'react-native';
 import CustomButton from './CustomButton';
 import { useStripe } from '@stripe/stripe-react-native';
@@ -31,7 +31,7 @@ const Payment = ({
 
   const initializePaymentSheet = async () => {
     const { error } = await initPaymentSheet({
-      merchantDisplayName: 'Ryde by Rudy, Inc',
+      merchantDisplayName: 'Ryde by Rudy Nurafif',
       intentConfiguration: {
         mode: {
           amount: parseInt(amount) * 100,
@@ -75,9 +75,9 @@ const Payment = ({
                 },
                 body: JSON.stringify({
                   origin_address: userAddress,
-                  destination_address: destinationAddress,
                   origin_latitude: userLatitude,
                   origin_longitude: userLongitude,
+                  destination_address: destinationAddress,
                   destination_latitude: destinationLatitude,
                   destination_longitude: destinationLongitude,
                   ride_time: rideTime.toFixed(0),
@@ -96,9 +96,10 @@ const Payment = ({
         },
       },
 
-      returnURL: 'myapp"/book-ride',
+      returnURL: "myapp://book-ride",
     });
     if (error) {
+      Alert.alert(`Error code: ${error.code}`, error.message);
       console.log(error);
     }
   };
@@ -124,7 +125,10 @@ const Payment = ({
 
       <ReactNativeModal
         isVisible={success}
-        onBackdropPress={() => setSuccess(false)}
+        onBackdropPress={() => {
+          setSuccess(false);
+          router.push('/(root)/(tabs)/home');
+        }}
       >
         <View className='flex flex-col items-center justify-center bg-white p-7 rounded-2xl'>
           <Image source={images.check} className='w-28 h-28 mt-5' />
