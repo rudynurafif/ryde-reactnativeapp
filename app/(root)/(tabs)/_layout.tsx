@@ -11,7 +11,7 @@ const TabIcon = ({
   source: ImageSourcePropType;
 }) => (
   <View
-    className={`flex flex-row justify-center items-center rounded-full ${focused ? 'bg-general-300' : ''}'`}
+    className={`flex flex-row justify-center items-center rounded-full ${focused ? 'bg-general-300' : ''}`}
   >
     <View
       className={`rounded-full w-12 h-12 items-center justify-center ${focused ? 'bg-general-400' : ''}`}
@@ -42,11 +42,12 @@ const Layout = () => {
           marginHorizontal: 20,
           marginBottom: 20,
           height: 78,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexDirection: 'row',
           position: 'absolute',
+        },
+        tabBarItemStyle: {
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
         },
       }}
     >

@@ -11,6 +11,11 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import { cssInterop } from 'nativewind';
+
+// NativeWind v4 only maps className on built-in components; third-party
+// components must be registered explicitly.
+cssInterop(MapView, { className: 'style' });
 
 const Map = () => {
   const {
