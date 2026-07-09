@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Ryde - Uber Clone Mobile App",
+    "name": "Ryde",
     "slug": "uber-clone",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -36,6 +36,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": "https://uber.com/"
+      },
+      "eas": {
+        "projectId": "f3873f09-b47f-466e-b61a-59a6f15caa47"
+      }
     }
   }
 }
