@@ -7,8 +7,15 @@ import {
 } from '@/lib/map';
 import { useDriverStore, useLocationStore } from '@/store';
 import { Driver, MarkerData } from '@/types/type';
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { cssInterop } from 'nativewind';
@@ -27,6 +34,23 @@ const Map = () => {
   const { selectedDriver, setDrivers } = useDriverStore();
   const { data: drivers, loading, error } = useFetch<Driver[]>('/(api)/driver');
   const [markers, setMarkers] = useState<MarkerData[]>([]);
+  const mapRef = useRef<MapView>(null);
+
+  // iOS has no built-in "my location" button (that's Android-only), so provide
+  // a custom one that recenters the map on the user's current position.
+  const recenterToUser = () => {
+    if (userLatitude && userLongitude) {
+      mapRef.current?.animateToRegion(
+        {
+          latitude: userLatitude,
+          longitude: userLongitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        },
+        500
+      );
+    }
+  };
 
   const region = calculateRegion({
     userLatitude,
@@ -80,7 +104,9 @@ const Map = () => {
   }
 
   return (
-    <MapView
+    <View className='w-full h-full'>
+      <MapView
+      ref={mapRef}
       provider={PROVIDER_DEFAULT}
       className='w-full h-full rounded-2xl'
       tintColor='black'
@@ -133,6 +159,20 @@ const Map = () => {
         </>
       )}
     </MapView>
+
+      {Platform.OS === 'ios' && (
+        <TouchableOpacity
+          onPress={recenterToUser}
+          className='absolute top-16 right-4 w-10 h-10 bg-white rounded-full items-center justify-center shadow-md shadow-neutral-400'
+        >
+          <Image
+            source={icons.target}
+            className='w-6 h-6'
+            resizeMode='contain'
+          />
+        </TouchableOpacity>
+      )}
+    </View>
   );
 };
 

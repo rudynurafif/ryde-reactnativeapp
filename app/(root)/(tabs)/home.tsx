@@ -53,10 +53,17 @@ export default function Page() {
         longitude: location.coords?.longitude!,
       });
 
+      // formattedAddress is Android-only; build it from parts on iOS.
+      const addr = address[0];
+      const formattedAddress =
+        addr?.formattedAddress ||
+        [addr?.name, addr?.city, addr?.region].filter(Boolean).join(', ') ||
+        'Current location';
+
       setUserLocation({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        address: `${address[0].formattedAddress}`,
+        address: formattedAddress,
       });
     };
 

@@ -7,7 +7,14 @@ import '../global.css';
 import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
 import { tokenCache } from '@/lib/auth';
 import React from 'react';
-import { LogBox } from 'react-native';
+import { BackHandler, LogBox } from 'react-native';
+
+// react-native-modal@13 calls BackHandler.removeEventListener on unmount, but
+// that method was removed in React Native 0.74+ (SDK 54), which crashes any
+// modal on unmount. Shim it to a no-op so modals keep working.
+if (typeof (BackHandler as any).removeEventListener !== 'function') {
+  (BackHandler as any).removeEventListener = () => {};
+}
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
