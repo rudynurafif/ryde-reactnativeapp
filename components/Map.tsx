@@ -8,7 +8,7 @@ import {
 import { useDriverStore, useLocationStore } from '@/store';
 import { Driver, MarkerData } from '@/types/type';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, Text, View } from 'react-native';
 import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { cssInterop } from 'nativewind';
@@ -84,7 +84,7 @@ const Map = () => {
       provider={PROVIDER_DEFAULT}
       className='w-full h-full rounded-2xl'
       tintColor='black'
-      mapType='mutedStandard'
+      mapType={Platform.OS === 'ios' ? 'mutedStandard' : 'standard'}
       showsPointsOfInterest={false}
       initialRegion={region}
       showsUserLocation={true}
