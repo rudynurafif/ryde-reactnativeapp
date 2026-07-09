@@ -47,30 +47,28 @@ const Profile = () => {
           <View className='flex flex-col items-start justify-start w-full'>
             <InputField
               label='First name'
-              placeholder={user?.firstName || 'Not Found'}
+              value={user?.firstName || 'Not Found'}
               inputStyle='p-3.5'
               editable={false}
             />
 
             <InputField
               label='Last name'
-              placeholder={user?.lastName || 'Not Found'}
+              value={user?.lastName || 'Not Found'}
               inputStyle='p-3.5'
               editable={false}
             />
 
             <InputField
               label='Email'
-              placeholder={
-                user?.primaryEmailAddress?.emailAddress || 'Not Found'
-              }
+              value={user?.primaryEmailAddress?.emailAddress || 'Not Found'}
               inputStyle='p-3.5'
               editable={false}
             />
 
             <InputField
               label='Phone'
-              placeholder={user?.primaryPhoneNumber?.phoneNumber || 'Not Found'}
+              value={user?.primaryPhoneNumber?.phoneNumber || '-'}
               inputStyle='p-3.5'
               editable={false}
             />
